@@ -172,64 +172,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Health & Hunger
 
-    [Tooltip("Amount of health")]
-    public int Health = 100;
-
-    [Tooltip("Amount of food")]
-    public int Food = 100;
-
-    [Tooltip("Rate in seconds in which the hunger increases")]
-    public float HungerRate = 0.5f;
-
-
-
-    public bool IsDead
-    {
-        get
-        {
-            return Health == 0 || Food == 0;
-        }
-    }
-
-    public bool CarriesItem(string itemName)
-    {
-        if (mCurrentItem == null)
-            return false;
-
-        return (mCurrentItem.Name == itemName);
-    }
-
-    public InventoryItemBase GetCurrentItem()
-    {
-        return mCurrentItem;
-    }
-
-    public bool IsArmed
-    {
-        get
-        {
-            if (mCurrentItem == null)
-                return false;
-
-            return mCurrentItem.ItemType == EItemType.Weapon;
-        }
-    }
-
-
-
-    private void Die()
-    {
-        _animator.SetTrigger("death");
-
-        if (PlayerDied != null)
-        {
-            PlayerDied(this, EventArgs.Empty);
-        }
-    }
-
-    #endregion
 
 
     public void Talk()
@@ -261,14 +204,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!IsDead)
-        {
-            // Drop item
-            if (mCurrentItem != null && Input.GetKeyDown(KeyCode.R))
-            {
-                DropCurrentItem();
-            }
-        }
+
     }
 
     void LateUpdate()
@@ -282,7 +218,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsDead && mIsControlEnabled)
+        if (mIsControlEnabled)
         {
             // Interact with the item
             if (mInteractItem != null && Input.GetKeyDown(KeyCode.F))
@@ -322,7 +258,7 @@ public class PlayerController : MonoBehaviour
             float turnAmount = Mathf.Atan2(move.x, move.z);
 
             transform.Rotate(0, turnAmount * RotationSpeed * Time.deltaTime, 0);
-
+            //Moooooove
             if (_characterController.isGrounded || mExternalMovement != Vector3.zero)
             {
                 _moveDirection = transform.forward * move.magnitude;
