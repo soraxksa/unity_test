@@ -42,12 +42,6 @@ public class MovingPlatform : MonoBehaviour
             moveDir = targetPos;
         }
 
-        if(mPlayer != null)
-        {
-            // Set the external movement for the player
-            // so that this can be applied in the character controller
-            mPlayer.ExternalMovement = moveDir;
-        }
 
         transform.position += moveDir;
 
@@ -66,16 +60,6 @@ public class MovingPlatform : MonoBehaviour
             {
                 mPlayer = player;
             }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        var player = other.GetComponent<PlayerController>();
-        if (player != null && mPlayer != null)
-        {
-            mPlayer.ExternalMovement = Vector3.zero;
-            mPlayer = null;
         }
     }
 
